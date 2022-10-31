@@ -1,0 +1,22 @@
+{
+  "name": "inject-htmlcontent-webpack-plugin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rnrudxo2872/inject-htmlContent-webpack-plugin.git"
+  },
+  "keywords": [],
+  "author": "koo <rnrudxo2872@naver.com> (https://github.com/rnrudxo2872)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rnrudxo2872/inject-htmlContent-webpack-plugin/issues"
+  },
+  "homepage": "https://github.com/rnrudxo2872/inject-htmlContent-webpack-plugin",
+  "type": "module",
+  "peerDependencies": {
+    "html-webpack-plugin": "^5.5.0"
+  }
+}
