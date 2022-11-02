@@ -1,9 +1,11 @@
 {
-  "name": "inject-htmlcontent-webpack-plugin",
+  "name": "inject-html-content-webpack-plugin",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {},
+  "main": "src/index.js",
+  "scripts": {
+    "build": "babel src --out-dir dist"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/rnrudxo2872/inject-htmlContent-webpack-plugin.git"
@@ -15,8 +17,14 @@
     "url": "https://github.com/rnrudxo2872/inject-htmlContent-webpack-plugin/issues"
   },
   "homepage": "https://github.com/rnrudxo2872/inject-htmlContent-webpack-plugin",
-  "type": "module",
   "peerDependencies": {
     "html-webpack-plugin": "^5.5.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.19.6"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.19.4"
   }
 }

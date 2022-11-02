@@ -1,5 +1,3 @@
-const HtmlPlugin = require("html-webpack-plugin");
-
 /**
  * @param {string} content
  * @param {string} target
@@ -18,7 +16,7 @@ function insertStrAfter(content, target, insertStr) {
     return content.slice(0, findIdx + strLen) + insertStr + content.slice(findIdx + strLen);
 }
 
-export default class InjectHtmlContentPlugin {
+class InjectHtmlContentPlugin {
     /**
      * @param {string} name - plugin name
      * @param {{content: string, target: string}} options - options
@@ -29,10 +27,12 @@ export default class InjectHtmlContentPlugin {
      *  target: '<div id="root">'
      * })
      */
-    constructor(name, options) {
+    constructor(name, htmlPlugin, options) {
+        if (htmlPlugin == null) throw new Error("does not exist htmlPlugin.");
         if (name == null) throw new Error("does not exist name.");
         if (options.target == null) throw new Error("does not exist target");
 
+        this.htmlPlugin = htmlPlugin
         this.name = name;
         this.options = {
             content: "<div id=root/>",
@@ -41,11 +41,18 @@ export default class InjectHtmlContentPlugin {
     }
 
     apply(compiler) {
-        compiler.hooks.compilation.tap(this.name + 1, (compilation) => {
-            HtmlPlugin.getHooks(compilation).beforeEmit.tap(this.name + 2, (data) => {
-                if (!data.outputName.includes(this.name)) return;
-                data.html = insertStrAfter(data.html, this.target, this.options.content);
-            });
+        compiler.hooks.compilation.tap(this.name, (compilation) => {
+          this.htmlPlugin.getHooks(compilation).beforeEmit.tap(this.name, (data) => {
+            if (!data.outputName.includes(this.name)) return;
+            data.html = insertStrAfter(
+              data.html,
+              this.options.target,
+              this.options.content
+            );
+            data.html.trim();
+          });
         });
     }
 }
+
+exports.default = InjectHtmlContentPlugin;
