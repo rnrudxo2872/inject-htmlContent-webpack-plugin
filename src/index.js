@@ -1,5 +1,4 @@
 const htmlPlugin = require("html-webpack-plugin")
-const terserPlugin = require("html-minifier-terser")
 
 /**
  * @param {string} content
@@ -17,6 +16,14 @@ function insertStrAfter(content, target, insertStr) {
 
     const strLen = target.length;
     return content.slice(0, findIdx + strLen) + insertStr + content.slice(findIdx + strLen);
+}
+
+/**
+ * @param {string} htmlStr
+ * @return {string}
+ */
+function compressHtml(htmlStr) {
+    return htmlStr.replace(/(?:\r\n|\r|\n)/g, "").replace(/\s+/g, " ");
 }
 
 class InjectHtmlContentPlugin {
@@ -50,7 +57,7 @@ class InjectHtmlContentPlugin {
               this.options.target,
               this.options.content
             );
-            data.html = terserPlugin.minify(data.html);
+            data.html = compressHtml(data.html);
           });
         });
     }
