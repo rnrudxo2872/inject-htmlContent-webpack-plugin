@@ -1,3 +1,6 @@
+const htmlPlugin = require("html-webpack-plugin")
+const terserPlugin = require("html-minifier-terser")
+
 /**
  * @param {string} content
  * @param {string} target
@@ -27,12 +30,10 @@ class InjectHtmlContentPlugin {
      *  target: '<div id="root">'
      * })
      */
-    constructor(name, htmlPlugin, options) {
-        if (htmlPlugin == null) throw new Error("does not exist htmlPlugin.");
+    constructor(name, options) {
         if (name == null) throw new Error("does not exist name.");
         if (options.target == null) throw new Error("does not exist target");
 
-        this.htmlPlugin = htmlPlugin
         this.name = name;
         this.options = {
             content: "<div id=root/>",
@@ -42,14 +43,14 @@ class InjectHtmlContentPlugin {
 
     apply(compiler) {
         compiler.hooks.compilation.tap(this.name, (compilation) => {
-          this.htmlPlugin.getHooks(compilation).beforeEmit.tap(this.name, (data) => {
+          htmlPlugin.getHooks(compilation).beforeEmit.tap(this.name, (data) => {
             if (!data.outputName.includes(this.name)) return;
             data.html = insertStrAfter(
               data.html,
               this.options.target,
               this.options.content
             );
-            data.html.trim();
+            data.html = terserPlugin.minify(data.html);
           });
         });
     }
