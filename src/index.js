@@ -51,7 +51,7 @@ class InjectHtmlContentPlugin {
     apply(compiler) {
         compiler.hooks.compilation.tap(this.name, (compilation) => {
           htmlPlugin.getHooks(compilation).beforeEmit.tap(this.name, (data) => {
-            if (!data.outputName.includes(this.name)) return;
+            if (data.plugin.options.entryName !== this.name) return;
             data.html = insertStrAfter(
               data.html,
               this.options.target,
